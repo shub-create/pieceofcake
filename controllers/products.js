@@ -3,7 +3,7 @@ const Products = require('../models/product');
 
 exports.getAllProduct = (req,res,next) => {
 
-       Products.find().then((result) => {
+       Products.find().sort({updatedAt: -1}).then((result) => {
          res.status(200).json({
             products: result
          })
@@ -27,7 +27,7 @@ exports.searchProduct = (req,res,next) => {
             { description: { '$regex': searchTerm, '$options': 'i' } },
             { tag: { '$regex': searchTerm, '$options': 'i' } },
         ]
-    }).then((result)=> {
+    }).sort({updatedAt: -1}).then((result)=> {
         res.status(200).json({
             product: result
         })
@@ -63,7 +63,7 @@ exports.getProductByCategory = (req,res,next) => {
 
     if(productId){
 
-        Products.find({category: { '$regex': category, '$options': 'i' }, _id : { $ne: productId}}).then((result) => {
+        Products.find({category: { '$regex': `\\b${category}\\b`, '$options': 'i' }, _id : { $ne: productId}}).sort({updatedAt: -1}).then((result) => {
 
             if(result.length>0){
                 res.status(200).json({
@@ -85,7 +85,7 @@ exports.getProductByCategory = (req,res,next) => {
 
     }
     else {
-        Products.find({category: { '$regex': category, '$options': 'i' }}).then((result) => {
+        Products.find({category: { '$regex': `\\b${category}\\b`, '$options': 'i' }}).sort({updatedAt: -1}).then((result) => {
 
             console.log(result)
 

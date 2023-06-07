@@ -119,9 +119,18 @@ exports.getUserOrders = (req,res,next) => {
 
     const userId = req.user._id;
     
-    Users.findOne({_id : userId}).populate('orders').then((result) => {
+    Users.findOne({_id : userId}).populate('orders').populate({ 
+        path: 'orders',
+        populate: {
+          path: 'items',
+          populate: {
+            path: 'product_id',
+            model: 'Product'
+          }
+        } 
+     }).sort({"orders.createdAt": -1}).then((result) => {
         res.status(200).json({
-            orders : result.orders
+            orders : result
         })
     }).catch((err)=> {
         res.send(500).json({

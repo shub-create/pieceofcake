@@ -10,6 +10,7 @@ const MongoStore = require('connect-mongo')
 
 
 const productRoute = require('./routes/product');
+const bannerRoute = require('./routes/banner');
 const userRoute = require('./routes/user');
 const orderRoute = require('./routes/order');
 const cartRoute = require('./routes/cart');
@@ -29,9 +30,9 @@ app.use(cors({ credentials: true, origin: "http://localhost:3001" }));
 
 app.use('/admin',adminRoute);
 
-// app.use(bodyParser.urlencoded({ 
-//     extended: true 
-// }));
+app.use(bodyParser.urlencoded({ 
+    extended: true 
+}));
 
 app.use(bodyParser.json())
 
@@ -77,6 +78,7 @@ app.use('/product', productRoute);
 app.use('/user',ensureAuth, userRoute);
 app.use('/order', orderRoute);
 app.use('/cart',cartRoute);
+app.use('/banner',bannerRoute);
 app.use('/payment',paymentRoute);
 
 

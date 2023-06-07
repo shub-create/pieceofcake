@@ -6,6 +6,7 @@ const uploadFeature = require('@admin-bro/upload')
 const mongoose = require('mongoose');
 
 const Product = require('../models/product');
+const Banner = require('../models/banner');
 
 AdminBro.registerAdapter(AdminBroMongoose);
 
@@ -62,7 +63,35 @@ const adminBro = new AdminBro({
         
   ]
     
-  }],
+  },
+  {
+    resource: Banner,
+    options: {
+        properties: {
+            banner_img: {
+                isVisible: false
+            }
+        }
+    },
+    features: [
+        uploadFeature({
+            provider: { aws: {
+                bucket: process.env.AWS_BUCKET,
+                accessKeyId: process.env.AWS_ACCESS_KEY,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                region: process.env.AWS_REGION,
+                expires: 0,
+                shouldSetContentType: true
+            }},
+            properties: {
+                file: 'uploadonebanner',
+                key: 'banner_img.path',
+                mimeType: 'banner_img.type'
+            }
+          }),    
+  ]
+  }
+],
   rootPath: '/admin',
 })
 

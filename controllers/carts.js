@@ -6,7 +6,13 @@ exports.getCartItems = (req,res,next) => {
     
     const cartId = req?.user?._id;
 
-    Carts.findOne({_id: cartId}).then((result) => {
+    Carts.findOne({_id: cartId}).populate({ 
+        path: 'items',
+        populate: {
+          path: 'product_id',
+          model: 'Product'
+        } 
+     }).then((result) => {
         res.status(200).json({
             cartItems: result
         })

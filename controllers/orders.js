@@ -64,30 +64,65 @@ exports.createOrder = (req,res,next) => {
                             const emailItems = [];
 
                             for(let item in items) {
-                                emailItems.push(
-                                    `<div> 
-                                        <img style={{ width : "50px" , height: "50px"}} src="https://pieceofcakebucket.s3.ap-south-1.amazonaws.com/64667db395f81e50c4532dce/banner2+(2).jpg" />
-                                        <div>
-                                            ${items[item].product_id.title}
-                                        </div>
-                                        <div>
-                                            ${items[item].qty}
-                                        </div>
-                                        <div>
-                                            ${items[item].weight}
-                                        </div>
-                                        <div> 
-                                            ${items[item].cost}
-                                        </div>
-                                    </div>`
-                                )
+                                
+                                if(items[item].weight){
+                                    emailItems.push(
+
+                                        `<div> 
+                                            <div style ={{width : "100px" ,height: "100px"}}>
+                                            <img style={{ width : "100%" , height: "100%"}} src="https://pieceofcakebucket.s3.ap-south-1.amazonaws.com/${items[item].product_id.cimage.path}" />
+                                            </div>
+                                            <div>
+                                               Title: ${items[item].product_id.title}
+                                            </div>
+                                            <div>
+                                               Qty: ${items[item].qty}
+                                            </div>
+                                            <div>
+                                               Weight: ${items[item].weight} lbs
+                                            </div>
+                                            <div>
+                                               Message: ${items[item].message} 
+                                            </div>
+                                            <div> 
+                                              Cost: Rs ${items[item].cost}
+                                            </div>
+                                        </div>`
+                                    )
+
+                                }
+
+                                else {
+                                    emailItems.push(
+
+                                        `<div> 
+                                            <div style ={{width : "100px" ,height: "100px"}}>
+                                            <img style={{ width : "100%" , height: "100%"}} src="https://pieceofcakebucket.s3.ap-south-1.amazonaws.com/${items[item].product_id.cimage.path}" />
+                                            </div>
+                                            <div>
+                                               Title: ${items[item].product_id.title}
+                                            </div>
+                                            <div>
+                                               Qty: ${items[item].qty}
+                                            </div>
+                                            <div>
+                                               Box_of : ${items[item].box_of}
+                                            </div>
+                                            <div> 
+                                              Cost: Rs ${items[item].cost}
+                                            </div>
+                                        </div>`
+                                    )
+
+                                }
+
                             }
     
                             const options = {
                                 from: "pieceofcake23@outlook.com",
                                 to : "shubhammittal175@gmail.com",
-                                subject :  `You have received a new order! OrderId `,
-                                text: "NEW order received",
+                                subject :  `You have received a new order!`,
+                                text: "New order received",
                                 html : `<div>
                                     <div>Order details</div>
                                     <div>
@@ -114,7 +149,7 @@ exports.createOrder = (req,res,next) => {
                                     </div>
                                     <div>
                                         <div>
-                                            Total Amount Paid %${amount_paid}
+                                            Total Amount Paid Rs ${amount_paid}
                                         </div>
                                     </div>
                                 </div>`
