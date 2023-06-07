@@ -26,6 +26,8 @@ require('./config/passport')(passport)
 
 const app = express()
 
+const PORT = process.env.PORT || 3000;
+
 app.use(cors({ credentials: true, origin: "http://localhost:3001" }));
 
 app.use('/admin',adminRoute);
@@ -84,7 +86,7 @@ app.use('/payment',paymentRoute);
 
 app.use('/auth', authRoute);
 
-app.listen(3000) 
+app.listen(PORT) 
 
 
 

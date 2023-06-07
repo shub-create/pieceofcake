@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Float = require('mongoose-float').loadType(mongoose);
 
 const schema = mongoose.Schema;
 
@@ -33,7 +32,7 @@ const orderSchema = new schema({
             required: true
         },
         cost: {
-            type: Float,
+            type: Number,
             required: true
         }
     }],
@@ -63,7 +62,7 @@ const orderSchema = new schema({
 
     payment_details : {
         amount: {
-            type: Float,
+            type: Number,
             required: true
         },
         payment_id : {

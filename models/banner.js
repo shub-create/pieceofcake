@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Float = require('mongoose-float').loadType(mongoose);
 
 const schema = mongoose.Schema;
 

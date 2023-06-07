@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const Float = require('mongoose-float').loadType(mongoose);
-
 const schema = mongoose.Schema;
 
 const cartSchema = new schema({
@@ -29,7 +27,7 @@ const cartSchema = new schema({
             required: true
         },
         cost: {
-            type: Float,
+            type: Number,
             required: true
         },
         message : {

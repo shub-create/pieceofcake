@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Float = require('mongoose-float').loadType(mongoose);
 
 const schema = mongoose.Schema;
 
@@ -36,28 +35,28 @@ const productSchema = new schema({
 
     weight_price: {
         1 : {
-            type: Float,
+            type: Number,
         },
         2 : {
-            type: Float,
+            type: Number,
         },
         3 : {
-            type: Float,
+            type: Number,
         },
         4 : {
-            type: Float,
+            type: Number,
         },
         5 : {
-            type: Float,
+            type: Number,
         }
     },
 
     box_price: {
         4 : {
-            type: Float
+            type: Number
         },
         6 : {
-            type: Float
+            type: Number
         }
     },
 
