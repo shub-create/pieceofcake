@@ -12,7 +12,7 @@ exports.createOrder = (req,res,next) => {
 
         // ORDERS FLOW -   GET ITEMS FROM CART -> PAYMENT -> CREATE ORDER -> EMPTY CART
 
-        const userId = req.body.userId;
+        const userId = req?.user?._id;
         const delivery_details = req.body.delivery_details;
 
         const payment_response = req.body.response;

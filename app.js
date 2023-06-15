@@ -4,11 +4,6 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 require('dotenv').config();
 
-const session = require('express-session')
-const MongoStore = require('connect-mongo')
-   
-
-
 const productRoute = require('./routes/product');
 const bannerRoute = require('./routes/banner');
 const userRoute = require('./routes/user');
@@ -20,15 +15,11 @@ const paymentRoute = require('./routes/payment');
 
 const { ensureAuth } = require('./middleware/auth')
 
-const passport = require('passport');
-
-require('./config/passport')(passport)
-
 const app = express()
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({ credentials: true, origin: "http://localhost:3001" }));
+app.use(cors({ credentials: true, origin: process.env.ORIGIN || "http://localhost:3001" }));
 
 app.use('/admin',adminRoute);
 
@@ -39,29 +30,13 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 
-
-
-
 app.use((req,res,next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3001");
+    res.header("Access-Control-Allow-Origin", process.env.ORIGIN || "http://localhost:3001");
     res.header('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Methods','OPTIONS,GET,POST,PUT,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Referer');
     next();
 })
-
-
-app.use(session({
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({mongoUrl:process.env.ATLAS_URI})
-}))
-
-
-app.use(passport.initialize())
-app.use(passport.session())
-
 
 // for testing
 app.get('/',ensureAuth,(req,res) => {
@@ -69,17 +44,11 @@ app.get('/',ensureAuth,(req,res) => {
 })
 
 
-// route for getting login status with user details in frontend
-app.get('/getuser',(req,res) => {
-    res.send(req.user)
-    console.log(req.user);
-})
-
 // routes
 app.use('/product', productRoute);
 app.use('/user',ensureAuth, userRoute);
-app.use('/order', orderRoute);
-app.use('/cart',cartRoute);
+app.use('/order',ensureAuth ,orderRoute);
+app.use('/cart',ensureAuth,cartRoute);
 app.use('/banner',bannerRoute);
 app.use('/payment',paymentRoute);
 
@@ -87,7 +56,6 @@ app.use('/payment',paymentRoute);
 app.use('/auth', authRoute);
 
 app.listen(PORT) 
-
 
 
 // mongodb connection
